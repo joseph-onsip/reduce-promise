@@ -18,5 +18,8 @@
   "homepage": "https://github.com/joseph-onsip/reduce-promise",
   "dependencies": {
     "native-promise-only": "^0.7.6-a"
+  },
+  "devDependencies": {
+    "tape": "^3.5.0"
   }
 }
