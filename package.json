@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/joseph-onsip/reduce-promise/issues"
   },
-  "homepage": "https://github.com/joseph-onsip/reduce-promise"
+  "homepage": "https://github.com/joseph-onsip/reduce-promise",
+  "dependencies": {
+    "native-promise-only": "^0.7.6-a"
+  }
 }
