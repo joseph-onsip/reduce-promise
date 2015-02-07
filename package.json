@@ -20,6 +20,7 @@
     "native-promise-only": "^0.7.6-a"
   },
   "devDependencies": {
+    "nop": "^1.0.0",
     "tape": "^3.5.0"
   }
 }
