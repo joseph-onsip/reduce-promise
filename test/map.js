@@ -25,11 +25,13 @@ function filterPromise (filterer) {
 test(function (t) {
   t.plan(2);
 
-  mapPromise(identityPromise)([1,0,1]).then(function (result) {
+  var arrayPromise = Promise.resolve([1,0,1])
+
+  arrayPromise.then(mapPromise(identityPromise)).then(function (result) {
     t.deepEqual(result, [1,0,1]);
   });
 
-  filterPromise(identityPromise)([1,0,1]).then(function (result) {
+  arrayPromise.then(filterPromise(identityPromise)).then(function (result) {
     t.deepEqual(result, [1,1]);
   });
 });
