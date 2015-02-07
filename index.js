@@ -2,18 +2,16 @@
 
 require('native-promise-only');
 
+var map = Array.prototype.map.call.bind(Array.prototype.map);
+
 module.exports = promisize(Array.prototype.reduce);
 module.exports.reduce = module.exports;
 module.exports.reduceRight = promisize(Array.prototype.reduceRight);
 module.exports.promisize = promisize;
 
 function promisize (reduceMethod) {
-  return function (callback, initialValue) {
-    var args = [promiseArguments(callback)];
-    if (arguments.length > 1) {
-      args.push(initialValue);
-    }
-
+  return function partialReduce (/* callback, initialValue */) {
+    var args = map(arguments, promiseArguments);
     return promiseArguments(function (object) {
       return reduceMethod.apply(object, args);
     });
@@ -25,7 +23,7 @@ function promiseArguments (f) {
     return f;
   }
   return function () {
-    var args = Array.prototype.map.call(arguments, promiseArguments);
+    var args = map(arguments, promiseArguments);
     return Promise.all(args).then(f.apply.bind(f, null));
   };
 }
