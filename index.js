@@ -2,19 +2,22 @@
 
 require('native-promise-only');
 
-module.exports = promisifyReduceMethod.bind(null, 'reduce');
+module.exports = promisize(Array.prototype.reduce);
 module.exports.reduce = module.exports;
-module.exports.reduceRight = promisifyReduceMethod.bind(null, 'reduceRight');
+module.exports.reduceRight = promisize(Array.prototype.reduceRight);
+module.exports.promisize = promisize;
 
-function promisifyReduceMethod (methodName, callback, initialValue) {
-  var args = [promiseArguments(callback)];
-  if (arguments.length > 2) {
-    args.push(initialValue);
+function promisize (reduceMethod) {
+  return function (callback, initialValue) {
+    var args = [promiseArguments(callback)];
+    if (arguments.length > 1) {
+      args.push(initialValue);
+    }
+
+    return promiseArguments(function (object) {
+      return reduceMethod.apply(object, args);
+    });
   }
-
-  return promiseArguments(function (array) {
-    return array[methodName].apply(array, args);
-  });
 }
 
 function promiseArguments (f) {
